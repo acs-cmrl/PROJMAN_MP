@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="400.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginViewController">
+   <children>
+      <Text layoutX="32.0" layoutY="44.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="MLF RESIDENCY SYSTEM">
+         <font>
+            <Font name="Century Gothic" size="30.0" />
+         </font>
+      </Text>
+      <ImageView fx:id="img_login" fitHeight="220.0" fitWidth="360.0" layoutX="20.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="btn_login" layoutX="20.0" layoutY="324.0" mnemonicParsing="false" onAction="#captureImage" prefHeight="46.0" prefWidth="360.0" text="LOGIN" />
+   </children>
+</AnchorPane>
