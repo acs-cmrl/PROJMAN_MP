@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import dao.DaoFactory;
+import dao.implementation.AttendanceDao;
+import dao.implementation.EmployeeDao;
+import model.Employee;
 import org.opencv.core.Mat;
 
 import javafx.application.Platform;
@@ -23,6 +27,10 @@ import javafx.scene.text.Text;
 import view.MainView;
 
 public class StafferViewController {
+
+	EmployeeDao eDao;
+	AttendanceDao aDao;
+
 
 	WebCamController webCam;
 	ImageProcessingController imgProcessor;
@@ -71,6 +79,8 @@ public class StafferViewController {
     	imgProcessor = new ImageProcessingController();
     	webCam.detectWebCam();
     	captureVideo();
+		eDao = (EmployeeDao) DaoFactory.getInstance().getDataAccessObject(EmployeeDao.class);
+		aDao = (AttendanceDao) DaoFactory.getInstance().getDataAccessObject(AttendanceDao.class);
     }
     @FXML
     void checkInOutButton(ActionEvent event) {
@@ -83,7 +93,17 @@ public class StafferViewController {
     		if(!nameText.getText().isEmpty() && !idText.getText().isEmpty() && 
     				(!sectionComboBox.getSelectionModel().isEmpty() || !sectionComboBox.getValue().equals("Section"))){
     			//check DB
-    			boolean DBCheck = true;
+				Employee employee = null;
+				Integer employee_id = null;
+				try{
+				employee_id = Integer.parseInt(idText.getText());
+				} catch (NumberFormatException e){
+					e.printStackTrace();
+				}
+				if(employee_id != null)
+					employee = eDao.select(employee_id);
+
+    			boolean DBCheck = aDao.login(employee);
     			if(DBCheck){
     				timeInText.setText(new SimpleDateFormat("MMM dd - HH:mm").format(Calendar.getInstance().getTime()));
     				checkInOutButton.setText("TIME OUT");
@@ -97,8 +117,18 @@ public class StafferViewController {
     			messageText2.setText("Please fill out the required entries");
     		}
     	}else{
-    		//check DB
-    		boolean DBCheck = true;
+			//check DB
+			Employee employee = null;
+			Integer employee_id = null;
+			try{
+				employee_id = Integer.parseInt(idText.getText());
+			} catch (NumberFormatException e){
+				e.printStackTrace();
+			}
+			if(employee_id != null)
+				employee = eDao.select(employee_id);
+
+			boolean DBCheck = aDao.logout(employee);
     		if(DBCheck){
     			timeOutText.setText(new SimpleDateFormat("MMM dd - HH:mm").format(Calendar.getInstance().getTime()));
 				checkInOutButton.setText("TIME IN");

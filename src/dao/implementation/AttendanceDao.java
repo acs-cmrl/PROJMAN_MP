@@ -18,6 +18,8 @@ import model.datetime.SimpleDatetime;
 public class AttendanceDao implements GenericDao{
 	
 	public boolean login(Employee employee) {
+		if(employee == null)
+			return false;
 		boolean success = true;
 		String sql = "INSERT INTO "+ Attendance.TABLE +"("
 				+ Attendance.COL_EMPLOYEE_ID + ")"
@@ -43,6 +45,8 @@ public class AttendanceDao implements GenericDao{
 		return success;
 	}
 	public boolean logout(Employee employee) {
+		if(employee == null)
+			return false;
 		boolean success = false;
 		
 		// get latest login
